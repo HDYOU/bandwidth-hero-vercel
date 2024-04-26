@@ -33,6 +33,18 @@ function params(req, res, next) {
   let quality = parseInt(req.query.l, 10);
   req.params.quality = Math.min(Math.max(quality || DEFAULT_QUALITY, MIN_QUALITY), MAX_QUALITY);
 
+  // 设置 自定义headers
+  let headers = req.query.headers || ""
+  if(headers) headers = JSON.parse(atob(headers))
+  for (const key in headers) {
+    if (Object.hasOwnProperty.call(headers, key)) {
+      const element = headers[key];
+      // 参数全部转小写
+      req.headers[key.toLowerCase()] = element
+    }
+  }
+  // console.log(req.headers)
+
   next();
 }
 
