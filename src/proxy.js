@@ -8,8 +8,16 @@ const redirect = require('./redirect');
 const compress = require('./compress');
 const bypass = require('./bypass');
 const copyHeaders = require('./copyHeaders');
+const pathParams = require('./pathParams')
+const params = require('./params')
 
 async function proxy(req, res) {
+    if (!req.params.url && req.baseUrl == "/path") {
+        // 请求内容为空? 重新获取
+        function null_next(){}
+        params(req, res, null_next)
+    }
+    let query = req.query
     const config = {
         url: req.params.url,
         method: 'get',
@@ -56,7 +64,7 @@ async function proxy(req, res) {
                 });
                 return result;
             }
-            else{
+            else {
                 /*Do Nothing*/
             }
             return data;
