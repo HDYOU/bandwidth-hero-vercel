@@ -24,6 +24,7 @@ function forwardWithoutProcessing(req, res, buffer) {
 
   // Set content length for proper content handling
   res.setHeader('content-length', buffer.length);
+  res.setHeader('Content-Length', buffer.length);
 
   // Extract and decode the filename, and set it in the content disposition header
   const urlPath = new URL(req.params.url).pathname;

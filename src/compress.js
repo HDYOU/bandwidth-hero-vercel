@@ -82,6 +82,7 @@ function adjustCompressionQuality(pixelCount, size, quality) {
 function sendImage(res, data, imgFormat, url, originSize) {
     res.setHeader('content-type', `image/${imgFormat}`);
     res.setHeader('content-length', data.length);
+    res.setHeader('Content-Length', data.length);
     let filename = encodeURIComponent(new URL(url).pathname.split('/').pop() || "image") + '.' + imgFormat;
     res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
     res.setHeader('X-Content-Type-Options', 'nosniff');
