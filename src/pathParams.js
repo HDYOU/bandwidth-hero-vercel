@@ -39,6 +39,7 @@ function pathParams(req, res, next) {
 
   toLog("query:", req.query)
   toLog("params:", req.params)
+  toLog("body:", req.body)
 
   next();
 }

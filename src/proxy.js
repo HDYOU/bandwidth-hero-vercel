@@ -11,10 +11,12 @@ const copyHeaders = require('./copyHeaders');
 const pathParams = require('./pathParams')
 const params = require('./params')
 
+function null_next(){}
+
 async function proxy(req, res) {
     if (!req.params.url && req.baseUrl == "/path") {
         // 请求内容为空? 重新获取
-        function null_next(){}
+        
         params(req, res, null_next)
     }
     let query = req.query
@@ -70,6 +72,13 @@ async function proxy(req, res) {
             return data;
         }],
     };
+    method = String(req.method)
+    if('post' == method.toLowerCase()){
+        config.method = 'post'
+        config.headers["Content-Type"]=req.headers["content-type"]
+        const body = req.body
+        config.data = body
+    }
 
     try {
         const origin = await axios(config);
