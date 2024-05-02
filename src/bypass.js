@@ -17,7 +17,7 @@ function forwardWithoutProcessing(req, res, buffer) {
     res.setHeader('Content-Type', req.params.originType);
   }
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY'); // This may need to be adjusted based on your application's needs.
+  //res.setHeader('X-Frame-Options', 'DENY'); // This may need to be adjusted based on your application's needs.
 
   // Flag indicating the content is being forwarded without processing
   res.setHeader('x-proxy-bypass', 1);
@@ -27,7 +27,7 @@ function forwardWithoutProcessing(req, res, buffer) {
 
   // Extract and decode the filename, and set it in the content disposition header
   const urlPath = new URL(req.params.url).pathname;
-  const filename = decodeURIComponent(urlPath.split('/').pop());
+  const filename = decodeURIComponent(urlPath.split('/').pop()) || "1.html";
   if (filename) {
     res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
   }
