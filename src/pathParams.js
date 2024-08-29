@@ -9,7 +9,7 @@ function pathParams(req, res, next) {
   //console.log(req)
   toLog("url:", req.url)
   let url = req.url
-  let find_txt = "/1.webp"
+  let find_txt = "/1."
   let index = url.indexOf(find_txt)
   if (index < 0) {
     return res.status(400).send('Invalid URL');
