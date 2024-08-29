@@ -7,11 +7,11 @@ const validator = require('validator');
 
 function params(req, res, next) {
   let url = req.query.url;
-  
+
   // If multiple URLs are passed, join them together. This behavior might be revisited based on the expected usage.
   if (Array.isArray(url)) url = url.join('&url=');
   if (!url) return res.end('bandwidth-hero-proxy');
-  
+
   // Corrects some specific URL formatting issues.
   url = url.replace(/http:\/\/1\.1\.\d\.\d\/bmi\/(https?:\/\/)?/i, 'http://');
 
@@ -22,10 +22,18 @@ function params(req, res, next) {
   }
 
   req.params.url = url;
-  
+
   // Determines the desired output format. Defaults to webp.
   req.params.webp = !req.query.jpeg;
-  
+
+  // Determines the desired output format. Defaults to webp.
+  let format = req.query.format;
+  if (format) {
+    req.params.format = format;
+  } else {
+    req.params.format = req.params.webp ? "webp" : "jpg";
+  }
+
   // Checks if the image should be grayscale.
   req.params.grayscale = req.query.bw != 0;
 
@@ -35,7 +43,7 @@ function params(req, res, next) {
 
   // 设置 自定义headers
   let headers = req.query.headers || ""
-  if(headers) headers = JSON.parse(atob(headers))
+  if (headers) headers = JSON.parse(atob(headers))
   for (const key in headers) {
     if (Object.hasOwnProperty.call(headers, key)) {
       const element = headers[key];

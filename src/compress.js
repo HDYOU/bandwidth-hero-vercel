@@ -6,7 +6,7 @@ const fs = require('fs').promises;
 const os = require('os');
 const { URL } = require('url');
 async function compress(req, res, input) {
-    const format = req.params.webp ? 'webp' : 'jpeg';
+    const format = req.params.format;
     const originType = req.params.originType;
     sharp(input)
         .metadata(async (err, metadata) => {
